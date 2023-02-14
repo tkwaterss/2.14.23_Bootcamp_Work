@@ -13,18 +13,21 @@ module.exports = {
     },  
     createHouse:  (req,res) => {
         let newHouse = {...req.body, id:houseId}
+        newHouse.price = +newHouse.price;
         realtyData.push(newHouse);
         res.status(200).send(realtyData);
+        houseId++;
     },
     updateHouse: (req,res) => {
         let {id} = req.params;
         let {type} = req.body;
         let index = realtyData.findIndex(house => house.id === +id);
-        if(type === 'plus') {
-            realtyData[index].price += 10000;
-        } else {
+        if(type === 'minus') {
             realtyData[index].price -= 10000;
+        } else {
+            realtyData[index].price += 10000;
         }
+
         res.status(200).send(realtyData);
     }
 }
